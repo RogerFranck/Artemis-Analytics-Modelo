@@ -1,4 +1,7 @@
-import React from 'react';
+// React
+import React, { Component } from 'react';
+
+// Material UI
 import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
@@ -8,96 +11,72 @@ import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import { makeStyles } from '@material-ui/core/styles';
 
 //IMG
-import ModeloFondo from './Assets/Modelo.jpg'
-import ModeloLogo from './Assets/ModeloLogo.png'
+import ModeloLogo from './Assets/ModeloLogo.png';
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    height: '100vh',
-  },
-  image: {
-    backgroundImage: `url(${ModeloFondo})`,
-    backgroundRepeat: 'no-repeat',
-    backgroundColor:
-      theme.palette.type === 'light' ? theme.palette.grey[50] : theme.palette.grey[900],
-    backgroundSize: 'cover',
-    backgroundPosition: 'center',
-  },
-  paper: {
-    margin: theme.spacing(8, 4),
-    display: 'flex',
-    flexDirection: 'column',
-    alignItems: 'center',
-  },
-  avatar: {
-    margin: theme.spacing(1),
-    width: theme.spacing(10),
-    height: theme.spacing(10),
-  },
-  form: {
-    width: '100%', // Fix IE 11 issue.
-    marginTop: theme.spacing(1),
-  },
-  submit: {
-    margin: theme.spacing(3, 0, 2),
-  },
-}));
+//CSS
+import './Styles/Login.css';
 
-export default function SignInSide() {
-  const classes = useStyles();
-
-  return (
-    <Grid container component="main" className={classes.root}>
-      <CssBaseline />
-      <Grid item xs={false} sm={4} md={7} className={classes.image} />
-      <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-        <div className={classes.paper}>
-          <Avatar className={classes.avatar} src={ModeloLogo} />
-          <Typography component="h1" variant="h5">
-            Login
-          </Typography>
-          <form className={classes.form} noValidate>
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              id="User"
-              label="User"
-              name="User"
-              autoComplete="User"
-              autoFocus
-            />
-            <TextField
-              variant="outlined"
-              margin="normal"
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="current-password"
-            />
-            <FormControlLabel
-              control={<Checkbox value="remember" color="primary" />}
-              label="Remember me"
-            />
-            <Button
-              type="submit"
-              fullWidth
-              variant="contained"
-              color="primary"
-              className={classes.submit}
-            >
-              Sign In
-            </Button>
-          </form>
-        </div>
+export default class Login extends Component {
+  constructor() {
+    super();
+    this.state = {
+      User:'',
+      Password:''
+    };
+  }
+  render(){
+    return (
+      <Grid container component="main" className="Root">
+        <CssBaseline />
+        <Grid item xs={false} sm={4} md={7} className="Image" />
+        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
+          <div className="Paper">
+            <Avatar className="Avatar" style={{width: "80px",height:"80px"}} src={ModeloLogo} />
+            <Typography component="h1" variant="h5">
+              Login
+            </Typography>
+            <form>
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                id="User"
+                label="User"
+                name="User"
+                autoComplete="User"
+                autoFocus
+              />
+              <TextField
+                variant="outlined"
+                margin="normal"
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+              />
+              <FormControlLabel
+                control={<Checkbox value="remember" color="primary" />}
+                label="Remember me"
+              />
+              <Button
+                type="submit"
+                fullWidth
+                variant="contained"
+                color="primary"
+                className="submit"
+              >
+                Sign In
+              </Button>
+            </form>
+          </div>
+        </Grid>
       </Grid>
-    </Grid>
-  );
+    );
+  } 
 }
