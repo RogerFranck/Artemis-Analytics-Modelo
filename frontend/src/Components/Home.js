@@ -1,6 +1,6 @@
 //React
 import React from 'react'
-import { BrowserRouter as Router, Route, Switch, Link } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 //MATERIAL-UI
 import clsx from 'clsx';
@@ -39,6 +39,7 @@ import Interesados from './Interesados'
 import Contactados from './Contactados'
 import SemiInscritos from './SemiInscrito'
 import Inscritos from './Inscritos'
+import Config from './Config'
 
 const drawerWidth = 240;
 
@@ -168,125 +169,123 @@ export default function MiniDrawer() {
 
   return (
     <Router>
-      <Switch>
-        <div className={classes.root}>
-          <CssBaseline />
-          <AppBar
-            position="fixed"
-            className={clsx(classes.appBar, {
-              [classes.appBarShift]: open,
-            })}
-          >
-            <Toolbar>
-              <IconButton
-                aria-label="open drawer"
-                onClick={handleDrawerOpen}
-                edge="start"
-                style={{ color: grey[50] }}
-                className={clsx(classes.menuButton, {
-                  [classes.hide]: open,
-                })}
-              >
-                <MenuIcon />
-              </IconButton>
-              <Typography variant="h6" noWrap className={classes.title} >
-                Artemis Analytics Modelo
+      <div className={classes.root}>
+        <CssBaseline />
+        <AppBar
+          position="fixed"
+          className={clsx(classes.appBar, {
+            [classes.appBarShift]: open,
+          })}
+        >
+          <Toolbar>
+            <IconButton
+              aria-label="open drawer"
+              onClick={handleDrawerOpen}
+              edge="start"
+              style={{ color: grey[50] }}
+              className={clsx(classes.menuButton, {
+                [classes.hide]: open,
+              })}
+            >
+              <MenuIcon />
+            </IconButton>
+            <Typography variant="h6" noWrap className={classes.title} >
+              Artemis Analytics Modelo
           </Typography>
-              <div className={classes.search}>
-                <div className={classes.searchIcon}>
-                  <SearchIcon />
-                </div>
-                <InputBase
-                  placeholder="Search…"
-                  classes={{
-                    root: classes.inputRoot,
-                    input: classes.inputInput,
-                  }}
-                  inputProps={{ 'aria-label': 'search' }}
-                />
+            <div className={classes.search}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
               </div>
-              <IconButton
-                aria-label="account of current user"
-                aria-controls="menu-appbar"
-                aria-haspopup="true"
-                color="inherit"
-              >
-                <AccountCircle />
-              </IconButton>
-            </Toolbar>
-          </AppBar>
-          <Drawer
-            variant="permanent"
-            className={clsx(classes.drawer, {
+              <InputBase
+                placeholder="Search…"
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput,
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+              />
+            </div>
+            <IconButton
+              color="inherit"
+              component={Link}
+              to="/Home/Config"
+            >
+              <AccountCircle />
+            </IconButton>
+          </Toolbar>
+        </AppBar>
+        <Drawer
+          variant="permanent"
+          className={clsx(classes.drawer, {
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
+          })}
+          classes={{
+            paper: clsx({
               [classes.drawerOpen]: open,
               [classes.drawerClose]: !open,
-            })}
-            classes={{
-              paper: clsx({
-                [classes.drawerOpen]: open,
-                [classes.drawerClose]: !open,
-              }),
-            }}
-          >
-            <div className={classes.toolbar}>
-              <IconButton onClick={handleDrawerClose}>
-                {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon style={{ color: grey[50] }} />}
-              </IconButton>
-            </div>
-            <Divider />
-            <List>
-              <ListItem
-                button
-                component={Link}
-                to="/Home"
-              >
-                <ListItemIcon><HomeIcon style={{ color: grey[50] }} /></ListItemIcon>
-                <ListItemText primary="Home" />
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to="/Interesados"
-              >
-                <ListItemIcon><AssignmentLateIcon style={{ color: grey[50] }} /></ListItemIcon>
-                <ListItemText primary="Interesado" />
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to="/Contactados"
-              >
-                <ListItemIcon><AssignmentIndIcon style={{ color: grey[50] }} /></ListItemIcon>
-                <ListItemText primary="Contactado" />
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to="/SemiInscritos"
-              >
-                <ListItemIcon><AssessmentIcon style={{ color: grey[50] }} /></ListItemIcon>
-                <ListItemText primary="Semi Inscrito" />
-              </ListItem>
-              <ListItem
-                button
-                component={Link}
-                to="/Inscritos"
-              >
-                <ListItemIcon><AssignmentTurnedInIcon style={{ color: grey[50] }} /></ListItemIcon>
-                <ListItemText primary="Inscrito" />
-              </ListItem>
-            </List>
-          </Drawer>
-          <main className={classes.content}>
-            <div className={classes.toolbar} />
-            <Route path="/Home" exact component={Dashboard} />
-            <Route path="/Interesados" exact component={Interesados} />
-            <Route path="/Contactados" exact component={Contactados} />
-            <Route path="/SemiInscritos" exact component={SemiInscritos} />
-            <Route path="/Inscritos" exact component={Inscritos} />
-          </main>
-        </div>
-      </Switch>
+            }),
+          }}
+        >
+          <div className={classes.toolbar}>
+            <IconButton onClick={handleDrawerClose}>
+              {theme.direction === 'rtl' ? <ChevronRightIcon /> : <ChevronLeftIcon style={{ color: grey[50] }} />}
+            </IconButton>
+          </div>
+          <Divider />
+          <List>
+            <ListItem
+              button
+              component={Link}
+              to="/Home/Dash"
+            >
+              <ListItemIcon><HomeIcon style={{ color: grey[50] }} /></ListItemIcon>
+              <ListItemText primary="Home" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/Home/Interesados"
+            >
+              <ListItemIcon><AssignmentLateIcon style={{ color: grey[50] }} /></ListItemIcon>
+              <ListItemText primary="Interesado" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/Home/Contactados"
+            >
+              <ListItemIcon><AssignmentIndIcon style={{ color: grey[50] }} /></ListItemIcon>
+              <ListItemText primary="Contactado" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/Home/SemiInscritos"
+            >
+              <ListItemIcon><AssessmentIcon style={{ color: grey[50] }} /></ListItemIcon>
+              <ListItemText primary="Semi Inscrito" />
+            </ListItem>
+            <ListItem
+              button
+              component={Link}
+              to="/Home/Inscritos"
+            >
+              <ListItemIcon><AssignmentTurnedInIcon style={{ color: grey[50] }} /></ListItemIcon>
+              <ListItemText primary="Inscrito" />
+            </ListItem>
+          </List>
+        </Drawer>
+        <main className={classes.content}>
+          <div className={classes.toolbar} />
+          <Route path="/Home/Dash" exact component={Dashboard} />
+          <Route path="/Home/Interesados" exact component={Interesados} />
+          <Route path="/Home/Contactados" exact component={Contactados} />
+          <Route path="/Home/SemiInscritos" exact component={SemiInscritos} />
+          <Route path="/Home/Inscritos" exact component={Inscritos} />
+          <Route path="/Home/Config" exact component={Config} />
+        </main>
+      </div>
     </Router>
   );
 }
