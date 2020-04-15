@@ -39,7 +39,6 @@ import Interesados from './Interesados'
 import Contactados from './Contactados'
 import SemiInscritos from './SemiInscrito'
 import Inscritos from './Inscritos'
-import Login from './Login'
 
 const drawerWidth = 240;
 
@@ -285,7 +284,6 @@ export default function MiniDrawer() {
             <Route path="/Contactados" exact component={Contactados} />
             <Route path="/SemiInscritos" exact component={SemiInscritos} />
             <Route path="/Inscritos" exact component={Inscritos} />
-            <Route path="/Login" exact component={Login} />
           </main>
         </div>
       </Switch>
