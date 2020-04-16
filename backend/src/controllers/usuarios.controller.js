@@ -31,15 +31,17 @@ usuariosCtrl.getUser = async (req,res) => {
   res.json(usuario)
 };
 
-usuariosCtrl.updateUser = async (req,res) => {
+ usuariosCtrl.updateUser = async (req,res) => {
   //console.log(req.params.id, req.body) //ver que es lo que se recibe
   await usuarioModel.findOneAndUpdate({_id: req.params.id}, req.body) 
-  res.json({message: "Usuario Actualizado"})
-};
+  res.json({message: "Usuario Actualizado"}) 
+}; 
+
 
 usuariosCtrl.deleteUser = async(req,res) => {
   await usuarioModel.findOneAndDelete({_id:req.params.id})  
-  res.json({message: 'Usuario borrado'})
+  res.json({message: 'Usuario borrado'}) 
 };
+
 
 module.exports = usuariosCtrl;

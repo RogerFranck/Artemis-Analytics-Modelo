@@ -10,6 +10,7 @@ app.use(cors());
 app.use(express.json());
 
 //routes
-app.get('/usuarios', require('./routes/usuarios'))
-app.get('/prospectos', require('./routes/prospectos'))
+app.use('/usuarios', require('./routes/usuarios'))
+app.use('/prospectos', require('./routes/prospectos'))
+
 module.exports = app;

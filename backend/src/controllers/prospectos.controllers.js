@@ -7,6 +7,25 @@ prospectosCtrl.getProspectos = async (req,res) => {
   res.json(prospectos)
 }
 
+prospectosCtrl.postProspecto = async (req, res) =>{
+  const {nombre, carrera, correo, numero, estado, fechaCita, completadoCita, fechaExani, completadoExani, fichaGenerada, fichaPagada} = req.body
+  const nuevoProspecto = new prospectoModelo ({
+    nombre: nombre,
+    carrera: carrera,
+    correo: correo,
+    numero: numero,
+    estado: estado,
+    fechaCita: fechaCita,
+    completadoCita,
+    fechaExani: fechaExani,
+    completadoExani,
+    fichaGenerada,
+    fichaPagada,
+  });
+  await nuevoProspecto.save();
+  res.json({message: 'Usuario guardado'})
+}
+
 prospectosCtrl.getProspecto = async (req,res) => {
   const prospecto = await prospectoModelo.findById(req.params.id)
   res.json(prospecto)

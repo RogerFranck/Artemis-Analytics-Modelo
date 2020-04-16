@@ -17,12 +17,18 @@ const usuarioSchema = new Schema({
     type: String,
     required: true,
   },
-  numero: Number,
-  matricula: Number,
+  numero:{
+    type: Number,
+    required: false
+  },
+  matricula: {
+    type: Number,
+    required: false
+  },
   usuario: {
     type: String,
     required: true,
-    unique: true
+   
   },
   password:{
     type: String,

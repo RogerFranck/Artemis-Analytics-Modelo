@@ -11,18 +11,27 @@ const prospectoSchema = new Schema({
   }, 
   correo: String, 
   numero: Number,
-  estado: Number,
-  cita: {
-    fecha: Date,
-    completado: Boolean
+  estado: {
+    type: Number,
+    default: 1
   },
-  exani:{
-    fecha: Date,
-    completado: Boolean,
+  fechaCita: Date,
+  completadoCita:{
+    type: Boolean,
+    default: false
   },
-  ficha:{
-    genearada: Boolean,
-    pagada: Boolean,
+  fechaExani: Date,
+  completadoExani:{
+    type: Boolean,
+    default: false
+  },
+  genearadaFicha:{
+    type: Boolean,
+    default: false
+  },
+  pagadaFicha: {
+    type: Boolean,
+    default: false
   }
 })
 
