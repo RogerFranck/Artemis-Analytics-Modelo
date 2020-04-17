@@ -25,11 +25,11 @@ const prospectoSchema = new Schema({
     type: Boolean,
     default: false
   },
-  genearadaFicha:{
+  fichaGenerada:{
     type: Boolean,
     default: false
   },
-  pagadaFicha: {
+  fichaPagada: {
     type: Boolean,
     default: false
   }

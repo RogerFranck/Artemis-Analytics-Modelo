@@ -123,7 +123,7 @@ export default class Dashboard extends Component {
               <div className="tit">
                 <Typography>Citas Pendientes</Typography>
               </div>
-              {/*<Box
+              <Box
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -131,8 +131,8 @@ export default class Dashboard extends Component {
                 m={1}
               >
                 <img src={Vacio} className="img" alt="Cuchara" />
-              </Box>*/}
-              <List>
+              </Box>
+              {/* <List>
                 <ListItem>
                   <ListItemText
                     primary="Roger  (2 Dias)"
@@ -153,7 +153,7 @@ export default class Dashboard extends Component {
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              </List>
+              </List> */}
             </CardContent>
           </Card>
         </Grid>
