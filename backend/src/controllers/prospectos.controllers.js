@@ -2,6 +2,23 @@ const prospectosCtrl = {};
 
 const prospectoModelo = require('../models/modelProspecto')
 
+prospectosCtrl.getInteresados = async (req,res) => {
+  const docs = await prospectoModelo.find({ 'estado': 1 })
+  res.json(docs)
+}
+prospectosCtrl.getcontactados = async (req,res) => {
+  const docs = await prospectoModelo.find({ 'estado': 2 })
+  res.json(docs)
+}
+prospectosCtrl.getSemiInscritos = async (req,res) => {
+  const docs = await prospectoModelo.find({ 'estado': 3 })
+  res.json(docs)
+}
+prospectosCtrl.getinscritos = async (req,res) => {
+  const docs = await prospectoModelo.find({ 'estado': 4 })
+  res.json(docs)
+}
+
 prospectosCtrl.getProspectos = async (req,res) => {
   const prospectos = await prospectoModelo.find()
   res.json(prospectos)

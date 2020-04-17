@@ -1,6 +1,9 @@
 //REACT JS
 import React, { Component } from 'react'
 
+//Axios
+import Axios from 'axios';
+
 //MATERIAL UI
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -51,8 +54,30 @@ export default class Dashboard extends Component {
     super(props);
     this.state = {
       data,
+      InteresadosCount:0,
+      ContactadosCount:0,
+      SemiInscritosCount:0,
+      InscritosCount:0,
     };
   }
+
+  async componentDidMount() {
+    this.getdata();
+  }
+
+  getdata = async () => {
+    const Interesados = await Axios.get('http://localhost:4000/prospectos/Interesados');
+    const Contactados = await Axios.get('http://localhost:4000/prospectos/Contactados');
+    const SemiInscritos = await Axios.get('http://localhost:4000/prospectos/SemiInscritos');
+    const Inscritos = await Axios.get('http://localhost:4000/prospectos/Inscritos');
+    this.setState({
+      InteresadosCount:Interesados.data.length,
+      ContactadosCount:Contactados.data.length,
+      SemiInscritosCount:SemiInscritos.data.length,
+      InscritosCount:Inscritos.data.length,
+    });
+  }
+
   render() {
     const { data: chartData } = this.state;
     return (
@@ -66,7 +91,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Interesados</Typography>
                 <center>
-                  <Typography variant="h5" >5</Typography>
+                  <Typography variant="h5" > { this.state.InteresadosCount } </Typography>
                 </center>
               </div>
             </CardContent>
@@ -81,7 +106,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Contactados</Typography>
                 <center>
-                  <Typography variant="h5" >2</Typography>
+                  <Typography variant="h5" >  { this.state.ContactadosCount } </Typography>
                 </center>
               </div>
             </CardContent>
@@ -96,7 +121,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Semi Inscritos</Typography>
                 <center>
-                  <Typography variant="h5" >3</Typography>
+                  <Typography variant="h5" >  { this.state.SemiInscritosCount } </Typography>
                 </center>
               </div>
             </CardContent>
@@ -111,7 +136,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Inscritos</Typography>
                 <center>
-                  <Typography variant="h5" >1</Typography>
+                  <Typography variant="h5" >  { this.state.InscritosCount } </Typography>
                 </center>
               </div>
             </CardContent>
@@ -123,7 +148,7 @@ export default class Dashboard extends Component {
               <div className="tit">
                 <Typography>Citas Pendientes</Typography>
               </div>
-              <Box
+              {/* <Box
                 display="flex"
                 alignItems="center"
                 justifyContent="center"
@@ -131,8 +156,8 @@ export default class Dashboard extends Component {
                 m={1}
               >
                 <img src={Vacio} className="img" alt="Cuchara" />
-              </Box>
-              {/* <List>
+              </Box> */}
+              <List>
                 <ListItem>
                   <ListItemText
                     primary="Roger  (2 Dias)"
@@ -153,7 +178,7 @@ export default class Dashboard extends Component {
                     </IconButton>
                   </ListItemSecondaryAction>
                 </ListItem>
-              </List> */}
+              </List>
             </CardContent>
           </Card>
         </Grid>
