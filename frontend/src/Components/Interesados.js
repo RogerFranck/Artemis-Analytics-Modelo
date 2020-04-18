@@ -1,12 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios'
-import DeleteIcon from '@material-ui/icons/Delete';
-import DeleteOutlineIcon from '@material-ui/icons/DeleteOutline';
 
 export default function MaterialTableDemo() {
   const [columns, setColumns] = useState([
-   
       { title: 'Nombre', field: 'nombre' },
       { title: 'Correo', field: 'correo' },
       { title: 'Numero', field: 'numero', type: 'numeric' },
@@ -28,7 +25,7 @@ export default function MaterialTableDemo() {
 
   return (
     <MaterialTable
-      title="Editable Preview"
+      title="Interesados"
       columns={columns}
       data={data}
       editable={{
@@ -36,7 +33,7 @@ export default function MaterialTableDemo() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               {
-                const data = this.state.data;
+                const data = data;
                 data.push(newData);
                 this.setState({ data }, () => resolve());
               }
