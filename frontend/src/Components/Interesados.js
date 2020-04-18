@@ -68,7 +68,15 @@ export default function MaterialTableDemo() {
             }, 1000)
           }),
       }}
-
+      options={{
+        actionsColumnIndex: -1,
+        selection: true,
+        selectionProps: rowData => ({
+          //disabled: date <= Date.prototype.getDate(),
+          color: 'primary'
+        })
+      }}
+      onSelectionChange={(rows) => alert('Pasar' + rows.length + ' prospectos a contactados')}
     />
   )
 }
