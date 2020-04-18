@@ -4,6 +4,9 @@ import React, { Component } from 'react'
 //Axios
 import Axios from 'axios';
 
+//TimeAgo js
+import { format } from 'timeago.js'
+
 //MATERIAL UI
 import Grid from '@material-ui/core/Grid';
 import Card from '@material-ui/core/Card';
@@ -21,7 +24,7 @@ import AssignmentLateIcon from '@material-ui/icons/AssignmentLate';
 import AssignmentIndIcon from '@material-ui/icons/AssignmentInd';
 import AssessmentIcon from '@material-ui/icons/Assessment';
 import AssignmentTurnedInIcon from '@material-ui/icons/AssignmentTurnedIn';
-import DeleteIcon from '@material-ui/icons/Delete';
+import CheckCircleIcon from '@material-ui/icons/CheckCircle';
 
 //CSS
 import './Styles/Dashboard.css';
@@ -35,29 +38,26 @@ import Vacio from './Assets/Vacio.svg';
 //CHARTS
 import {
   Chart,
-  PieSeries,
+  BarSeries,
   Title,
+  ArgumentAxis,
+  ValueAxis,
+  Tooltip,
 } from '@devexpress/dx-react-chart-material-ui';
 
 import { Animation } from '@devexpress/dx-react-chart';
-
-//INFO
-const data = [
-  { country: 'Russia', area: 12 },
-  { country: 'Canada', area: 7 },
-  { country: 'USA', area: 7 },
-  { country: 'China', area: 7 },
-];
+import { EventTracker } from '@devexpress/dx-react-chart';
 
 export default class Dashboard extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      data,
-      InteresadosCount:0,
-      ContactadosCount:0,
-      SemiInscritosCount:0,
-      InscritosCount:0,
+      data: [],
+      InteresadosCount: 0,
+      ContactadosCount: 0,
+      SemiInscritosCount: 0,
+      InscritosCount: 0,
+      Citas: [],
     };
   }
 
@@ -71,15 +71,35 @@ export default class Dashboard extends Component {
     const SemiInscritos = await Axios.get('http://localhost:4000/prospectos/SemiInscritos');
     const Inscritos = await Axios.get('http://localhost:4000/prospectos/Inscritos');
     this.setState({
-      InteresadosCount:Interesados.data.length,
-      ContactadosCount:Contactados.data.length,
-      SemiInscritosCount:SemiInscritos.data.length,
-      InscritosCount:Inscritos.data.length,
+      data: [
+        { Type: 'Interesados', area: Interesados.data.length },
+        { Type: 'Contactados', area: Contactados.data.length },
+        { Type: 'Semi Inscritos', area: SemiInscritos.data.length },
+        { Type: 'Inscritos', area: Inscritos.data.length },
+      ],
+      InteresadosCount: Interesados.data.length,
+      ContactadosCount: Contactados.data.length,
+      SemiInscritosCount: SemiInscritos.data.length,
+      InscritosCount: Inscritos.data.length,
+      Citas: Interesados.data,
     });
   }
 
   render() {
     const { data: chartData } = this.state;
+    const { Citas } = this.state;
+    const cita = Citas.map((C) => (
+      <ListItem>
+        <ListItemText
+          primary={C.nombre +" ("+ format(C.fechaCita) + ")"}
+        />
+        <ListItemSecondaryAction>
+          <IconButton>
+            <CheckCircleIcon />
+          </IconButton>
+        </ListItemSecondaryAction>
+      </ListItem>
+    ));
     return (
       <Grid container spacing={4} >
         <Grid item xs={12} md={6} lg={3} >
@@ -91,7 +111,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Interesados</Typography>
                 <center>
-                  <Typography variant="h5" > { this.state.InteresadosCount } </Typography>
+                  <Typography variant="h5" > {this.state.InteresadosCount} </Typography>
                 </center>
               </div>
             </CardContent>
@@ -106,7 +126,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Contactados</Typography>
                 <center>
-                  <Typography variant="h5" >  { this.state.ContactadosCount } </Typography>
+                  <Typography variant="h5" >  {this.state.ContactadosCount} </Typography>
                 </center>
               </div>
             </CardContent>
@@ -121,7 +141,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Semi Inscritos</Typography>
                 <center>
-                  <Typography variant="h5" >  { this.state.SemiInscritosCount } </Typography>
+                  <Typography variant="h5" >  {this.state.SemiInscritosCount} </Typography>
                 </center>
               </div>
             </CardContent>
@@ -136,7 +156,7 @@ export default class Dashboard extends Component {
               <div>
                 <Typography variant="h6" color="textSecondary" >Inscritos</Typography>
                 <center>
-                  <Typography variant="h5" >  { this.state.InscritosCount } </Typography>
+                  <Typography variant="h5" >  {this.state.InscritosCount} </Typography>
                 </center>
               </div>
             </CardContent>
@@ -158,26 +178,7 @@ export default class Dashboard extends Component {
                 <img src={Vacio} className="img" alt="Cuchara" />
               </Box> */}
               <List>
-                <ListItem>
-                  <ListItemText
-                    primary="Roger  (2 Dias)"
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
-                <ListItem>
-                  <ListItemText
-                    primary="Sergio (6 Dias)"
-                  />
-                  <ListItemSecondaryAction>
-                    <IconButton>
-                      <DeleteIcon />
-                    </IconButton>
-                  </ListItemSecondaryAction>
-                </ListItem>
+                {cita}
               </List>
             </CardContent>
           </Card>
@@ -189,13 +190,17 @@ export default class Dashboard extends Component {
                 data={chartData}
                 height={300}
               >
-                <PieSeries
+                <ArgumentAxis />
+                <ValueAxis max={4} />
+
+                <BarSeries
                   valueField="area"
-                  argumentField="country"
+                  argumentField="Type"
+                  color="#673ab7"
                 />
-                <Title
-                  text="Prospectos"
-                />
+                <Title text="Prospectos" />
+                <EventTracker />
+                <Tooltip />
                 <Animation />
               </Chart>
             </CardContent>

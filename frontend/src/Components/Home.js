@@ -20,6 +20,7 @@ import ListItem from '@material-ui/core/ListItem';
 import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InputBase from '@material-ui/core/InputBase';
+import Tooltip from '@material-ui/core/Tooltip';
 
 //ICONS
 import HomeIcon from '@material-ui/icons/Home';
@@ -92,6 +93,7 @@ const useStyles = makeStyles((theme) => ({
       duration: theme.transitions.duration.leavingScreen,
     }),
     backgroundColor: "#1a237e",
+    color: 'white',
     overflowX: 'hidden',
     width: theme.spacing(7) + 1,
     [theme.breakpoints.up('sm')]: {
@@ -234,38 +236,47 @@ export default function MiniDrawer() {
           </div>
           <Divider />
           <List>
-            <ListItem
-              button
-              component={Link}
-              to="/Home/Dash"
-            >
-              <ListItemIcon><HomeIcon style={{ color: grey[50] }} /></ListItemIcon>
-              <ListItemText primary="Home" />
-            </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/Home/Interesados"
-            >
-              <ListItemIcon><AssignmentLateIcon style={{ color: grey[50] }} /></ListItemIcon>
-              <ListItemText primary="Interesado" />
-            </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/Home/Contactados"
-            >
-              <ListItemIcon><AssignmentIndIcon style={{ color: grey[50] }} /></ListItemIcon>
-              <ListItemText primary="Contactado" />
-            </ListItem>
-            <ListItem
-              button
-              component={Link}
-              to="/Home/SemiInscritos"
-            >
-              <ListItemIcon><AssessmentIcon style={{ color: grey[50] }} /></ListItemIcon>
-              <ListItemText primary="Semi Inscrito" />
-            </ListItem>
+            <Tooltip title="Home" >
+              <ListItem
+                button
+                component={Link}
+                to="/Home/Dash"
+              >
+                <ListItemIcon><HomeIcon style={{ color: grey[50] }} /></ListItemIcon>
+                <ListItemText primary="Home" />
+              </ListItem>
+            </Tooltip>
+            <Tooltip title="Interesados" >
+              <ListItem
+                button
+                component={Link}
+                to="/Home/Interesados"
+              >
+                <ListItemIcon><AssignmentLateIcon style={{ color: grey[50] }} /></ListItemIcon>
+                <ListItemText primary="Interesado" />
+              </ListItem>
+            </Tooltip>
+            <Tooltip title="Contactados" >
+              <ListItem
+                button
+                component={Link}
+                to="/Home/Contactados"
+              >
+                <ListItemIcon><AssignmentIndIcon style={{ color: grey[50] }} /></ListItemIcon>
+                <ListItemText primary="Contactado" />
+              </ListItem>
+            </Tooltip>
+            <Tooltip title="Semi Inscritos" >
+              <ListItem
+                button
+                component={Link}
+                to="/Home/SemiInscritos"
+              >
+                <ListItemIcon><AssessmentIcon style={{ color: grey[50] }} /></ListItemIcon>
+                <ListItemText primary="Semi Inscrito" />
+              </ListItem>
+            </Tooltip>
+            <Tooltip title="Inscritos" >
             <ListItem
               button
               component={Link}
@@ -274,6 +285,7 @@ export default function MiniDrawer() {
               <ListItemIcon><AssignmentTurnedInIcon style={{ color: grey[50] }} /></ListItemIcon>
               <ListItemText primary="Inscrito" />
             </ListItem>
+            </Tooltip>
           </List>
         </Drawer>
         <main className={classes.content}>
