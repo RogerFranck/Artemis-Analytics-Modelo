@@ -14,7 +14,6 @@ const prospectoSchema = new Schema({
   numero: Number,
   estado: {
     type: Number,
-    default: 1
   },
   fechaCita: Date,
   completadoCita:{

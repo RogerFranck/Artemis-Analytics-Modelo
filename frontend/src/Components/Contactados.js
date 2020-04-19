@@ -29,6 +29,7 @@ export default function MaterialTableDemo() {
     }, []);
     
     const saveProspecto = async (dataNew) =>{
+      dataNew["estado"]=2;
       await axios.post('http://localhost:4000/prospectos', dataNew);
       actualizarData();
     }
@@ -46,7 +47,6 @@ export default function MaterialTableDemo() {
           estado: 3
         }
         await axios.put('http://localhost:4000/prospectos/' + dataUpdate, temp)
-        console.log(dataUpdate)
         actualizarData();
       }
     }

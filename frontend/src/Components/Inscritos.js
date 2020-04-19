@@ -28,6 +28,7 @@ export default function MaterialTableDemo() {
     }, []);
     
     const saveProspecto = async (dataNew) =>{
+      dataNew["estado"]=4;
       await axios.post('http://localhost:4000/prospectos', dataNew);
       actualizarData();
     }
@@ -39,17 +40,7 @@ export default function MaterialTableDemo() {
       await axios.put('http://localhost:4000/prospectos/' +dataUpdate._id, dataUpdate)
       actualizarData();
     }
-    const moverProspecto = async (dataUpdate) => {
-      if (window.confirm('¿Desea mover el prospecto al apartado de "Inscrito"?')) {
-        const temp = {
-          estado: 4
-        }
-        await axios.put('http://localhost:4000/prospectos/' + dataUpdate, temp)
-        console.log(dataUpdate)
-        actualizarData();
-      }
-    }
-
+    
   return (
     <MaterialTable
       title="Prospectos Inscritos"

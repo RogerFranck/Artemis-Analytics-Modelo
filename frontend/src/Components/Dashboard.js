@@ -89,7 +89,7 @@ export default class Dashboard extends Component {
     const { data: chartData } = this.state;
     const { Citas } = this.state;
     const cita = Citas.map((C) => (
-      <ListItem>
+      <ListItem key={C._id} >
         <ListItemText
           primary={C.nombre + " (" + format(C.fechaCita) + ")"}
         />
@@ -168,7 +168,7 @@ export default class Dashboard extends Component {
               <div className="tit">
                 <Typography>Citas Pendientes</Typography>
               </div>
-              {this.state.Citas.length == 0 ?
+              {this.state.Citas.length === 0 ?
                 <Box
                   display="flex"
                   alignItems="center"
