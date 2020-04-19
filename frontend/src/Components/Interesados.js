@@ -2,30 +2,58 @@ import React, { useState, useEffect } from 'react';
 import MaterialTable from 'material-table';
 import axios from 'axios'
 
+
 export default function MaterialTableDemo() {
   const [columns, setColumns] = useState([
-      { title: 'Nombre', field: 'nombre' },
-      { title: 'Correo', field: 'correo' },
-      { title: 'Numero', field: 'numero', type: 'numeric' },
-      { title: 'Cita', field: 'fechaCita' },
-    ]);
+    { title: 'Nombre', field: 'nombre' },
+    { title: 'Correo', field: 'correo' },
+    { title: 'Numero', field: 'numero', type: 'numeric' },
+    { title: 'Cita', field: 'fechaCita', type: 'date'},
+  ]);
 
-    const [data, setData] = useState([
-    ]);
-  
-    useEffect(() => {
-      const fetchData = async () => {
-        const result = await axios('http://localhost:4000/prospectos/Interesados');
-        console.log(result)
-        setData(result.data);
-      };
-      fetchData();
-    }, []);
-  
+  const [data, setData] = useState([
+  ]);
+
+  const actualizarData = async () => {
+    const result = await axios('http://localhost:4000/prospectos/Interesados');
+    setData(result.data);
+  }
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const result = await axios('http://localhost:4000/prospectos/Interesados');
+      setData(result.data);
+    };
+    fetchData();
+  }, []);
+
+  const saveProspecto = async (dataNew) => {
+    await axios.post('http://localhost:4000/prospectos', dataNew);
+    actualizarData();
+  }
+  const deleteProspecto = async (dataOld) => {
+    await axios.delete('http://localhost:4000/prospectos/' + dataOld._id);
+    actualizarData();
+  }
+  const updateProspecto = async (dataUpdate) => {
+    await axios.put('http://localhost:4000/prospectos/' + dataUpdate._id, dataUpdate)
+    actualizarData();
+  }
+  const moverProspecto = async (dataUpdate) => {
+    if (window.confirm('¿Desea mover el prospecto al apartado de "Contactados"?')) {
+      const temp = {
+        estado: 2
+      }
+      await axios.put('http://localhost:4000/prospectos/' + dataUpdate, temp)
+      console.log(dataUpdate)
+      actualizarData();
+    }
+  }
+
 
   return (
     <MaterialTable
-      title="Interesados"
+      title="Prospectos Interesados"
       columns={columns}
       data={data}
       editable={{
@@ -33,9 +61,7 @@ export default function MaterialTableDemo() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               {
-                const data = data;
-                data.push(newData);
-                this.setState({ data }, () => resolve());
+                saveProspecto(newData);
               }
               resolve()
             }, 1000)
@@ -44,10 +70,7 @@ export default function MaterialTableDemo() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               {
-                const data = this.state.data;
-                const index = data.indexOf(oldData);
-                data[index] = newData;
-                this.setState({ data }, () => resolve());
+                updateProspecto(newData);
               }
               resolve()
             }, 1000)
@@ -56,24 +79,30 @@ export default function MaterialTableDemo() {
           new Promise((resolve, reject) => {
             setTimeout(() => {
               {
-                let data = this.state.data;
-                const index = data.indexOf(oldData);
-                data.splice(index, 1);
-                this.setState({ data }, () => resolve());
+                deleteProspecto(oldData);
               }
               resolve()
             }, 1000)
           }),
       }}
+      actions={[
+        {
+          icon: 'check',
+          tooltip: 'Confirmar',
+          onClick: (event, rowData) => moverProspecto(rowData._id)
+        }
+      ]}
       options={{
         actionsColumnIndex: -1,
-        selection: true,
-        selectionProps: rowData => ({
-          //disabled: date <= Date.prototype.getDate(),
-          color: 'primary'
-        })
       }}
-      onSelectionChange={(rows) => alert('Pasar' + rows.length + ' prospectos a contactados')}
+      localization={{
+        body: {
+          editRow: {
+            deleteText: "¿Estás seguro de querer borrarlo?",
+          }
+        }
+      }}
+
     />
   )
 }

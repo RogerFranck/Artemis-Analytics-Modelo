@@ -8,6 +8,7 @@ const prospectoSchema = new Schema({
   carrera: {
     type: String,
     required: true,
+    default: "DTS"
   }, 
   correo: String, 
   numero: Number,
