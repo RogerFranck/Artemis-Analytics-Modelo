@@ -91,7 +91,7 @@ export default class Dashboard extends Component {
     const cita = Citas.map((C) => (
       <ListItem>
         <ListItemText
-          primary={C.nombre +" ("+ format(C.fechaCita) + ")"}
+          primary={C.nombre + " (" + format(C.fechaCita) + ")"}
         />
         <ListItemSecondaryAction>
           <IconButton>
@@ -168,18 +168,21 @@ export default class Dashboard extends Component {
               <div className="tit">
                 <Typography>Citas Pendientes</Typography>
               </div>
-              {/* <Box
-                display="flex"
-                alignItems="center"
-                justifyContent="center"
-                p={1}
-                m={1}
-              >
-                <img src={Vacio} className="img" alt="Cuchara" />
-              </Box> */}
-              <List>
-                {cita}
-              </List>
+              {this.state.Citas.length == 0 ?
+                <Box
+                  display="flex"
+                  alignItems="center"
+                  justifyContent="center"
+                  p={1}
+                  m={1}
+                >
+                  <img src={Vacio} className="img" alt="Cuchara" />
+                </Box>
+                :
+                <List>
+                  {cita}
+                </List>
+              }
             </CardContent>
           </Card>
         </Grid>
