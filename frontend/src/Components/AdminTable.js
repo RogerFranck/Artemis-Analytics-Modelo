@@ -8,42 +8,43 @@ export default function MaterialTableDemo() {
     { title: 'Nombre', field: 'nombre' },
     { title: 'Correo', field: 'correo' },
     { title: 'Numero', field: 'numero', type: 'numeric' },
-    { title: 'Ficha Pagada', field: 'fichaPagada', type: 'boolean' },
+    { title: 'Usuario', field: 'usuario' },
+    { title: 'Contraseña', field: 'password'},
+    { title: 'Carrera', field: 'carrera'},
   ]);
 
   const [data, setData] = useState([
   ]);
 
   const actualizarData = async () => {
-    const result = await axios('http://localhost:4000/prospectos/Inscritos');
+    const result = await axios('http://localhost:4000/usuarios');
     setData(result.data);
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost:4000/prospectos/Inscritos');
+      const result = await axios('http://localhost:4000/usuarios');
       setData(result.data);
     };
     fetchData();
   }, []);
 
   const saveProspecto = async (dataNew) => {
-    dataNew["estado"] = 4;
-    await axios.post('http://localhost:4000/prospectos', dataNew);
+    await axios.post('http://localhost:4000/usuarios', dataNew);
     actualizarData();
   }
   const deleteProspecto = async (dataOld) => {
-    await axios.delete('http://localhost:4000/prospectos/' + dataOld._id);
+    await axios.delete('http://localhost:4000/usuarios/' + dataOld._id);
     actualizarData();
   }
   const updateProspecto = async (dataUpdate) => {
-    await axios.put('http://localhost:4000/prospectos/' + dataUpdate._id, dataUpdate)
+    await axios.put('http://localhost:4000/usuarios/' + dataUpdate._id, dataUpdate)
     actualizarData();
   }
 
   return (
     <MaterialTable
-      title="Prospectos Inscritos"
+      title="Coordinadores"
       columns={columns}
       data={data}
       editable={{

@@ -85,6 +85,16 @@ export default class Dashboard extends Component {
     });
   }
 
+  handleConfirmar = async (dataUpdate) => {
+    if (window.confirm('¿Desea mover el prospecto al apartado de "Contactados"?')) {
+      const temp = {
+        estado: 2
+      }
+      await Axios.put('http://localhost:4000/prospectos/' + dataUpdate, temp)
+    }
+    this.getdata();
+  }
+
   render() {
     const { data: chartData } = this.state;
     const { Citas } = this.state;
@@ -94,7 +104,7 @@ export default class Dashboard extends Component {
           primary={C.nombre + " (" + format(C.fechaCita) + ")"}
         />
         <ListItemSecondaryAction>
-          <IconButton>
+          <IconButton button onClick={ ()  => this.handleConfirmar(C._id)} >
             <CheckCircleIcon />
           </IconButton>
         </ListItemSecondaryAction>

@@ -21,6 +21,8 @@ import ListItemIcon from '@material-ui/core/ListItemIcon';
 import ListItemText from '@material-ui/core/ListItemText';
 import InputBase from '@material-ui/core/InputBase';
 import Tooltip from '@material-ui/core/Tooltip';
+import MenuItem from '@material-ui/core/MenuItem';
+import Menu from '@material-ui/core/Menu';
 
 //ICONS
 import HomeIcon from '@material-ui/icons/Home';
@@ -169,6 +171,17 @@ export default function MiniDrawer() {
     setOpen(false);
   };
 
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open2 = Boolean(anchorEl);
+
+  const handleMenu = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
     <Router>
       <div className={classes.root}>
@@ -209,11 +222,31 @@ export default function MiniDrawer() {
             </div>
             <IconButton
               color="inherit"
-              component={Link}
-              to="/Home/Config"
+              aria-label="account of current user"
+              aria-controls="menu-appbar"
+              aria-haspopup="true"
+              onClick={handleMenu}
             >
               <AccountCircle />
             </IconButton>
+            <Menu
+                id="menu-appbar"
+                anchorEl={anchorEl}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={open2}
+                onClose={handleClose}
+              >
+                <MenuItem component={Link} to="/Home/Config" onClick={handleClose} >Perfil</MenuItem>
+                <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
+              </Menu>
           </Toolbar>
         </AppBar>
         <Drawer

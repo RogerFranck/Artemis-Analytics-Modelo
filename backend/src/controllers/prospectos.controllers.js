@@ -49,6 +49,18 @@ prospectosCtrl.getProspecto = async (req,res) => {
 }
 
 prospectosCtrl.updateProspecto = async (req, res) => {
+  //Pase automatico de contactado a semi inscrito
+  if(req.body.estado==2 && req.body.fichaGenerada==true && req.body.completadoExani==true){
+    req.body["estado"]=3;
+  }
+  //Pase automatico de semi inscrito a inscrito
+  if(req.body.estado==3 && req.body.fichaPagada==true){
+    req.body["estado"]=4;
+  }
+  //Pase automatico de inscrito a semi inscrito --por si existe algun error--
+  if(req.body.estado==4 && req.body.fichaPagada==false){
+    req.body["estado"]=3;
+  }
   await prospectoModelo.findOneAndUpdate({_id: req.params.id}, req.body)
   res.json({message: "Prospecto actualizado"})
 }

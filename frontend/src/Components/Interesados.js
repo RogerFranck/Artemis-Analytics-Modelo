@@ -4,7 +4,7 @@ import axios from 'axios'
 
 
 export default function MaterialTableDemo() {
-  const [columns, setColumns] = useState([
+  const [columns] = useState([
     { title: 'Nombre', field: 'nombre' },
     { title: 'Correo', field: 'correo' },
     { title: 'Numero', field: 'numero', type: 'numeric' },
@@ -46,7 +46,6 @@ export default function MaterialTableDemo() {
         estado: 2
       }
       await axios.put('http://localhost:4000/prospectos/' + dataUpdate, temp)
-      console.log(dataUpdate)
       actualizarData();
     }
   }
@@ -61,27 +60,21 @@ export default function MaterialTableDemo() {
         onRowAdd: newData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              {
-                saveProspecto(newData);
-              }
+              saveProspecto(newData);
               resolve()
             }, 1000)
           }),
         onRowUpdate: (newData, oldData) =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              {
-                updateProspecto(newData);
-              }
+              updateProspecto(newData);
               resolve()
             }, 1000)
           }),
         onRowDelete: oldData =>
           new Promise((resolve, reject) => {
             setTimeout(() => {
-              {
-                deleteProspecto(oldData);
-              }
+              deleteProspecto(oldData);
               resolve()
             }, 1000)
           }),

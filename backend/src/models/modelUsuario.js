@@ -4,6 +4,7 @@ const usuarioSchema = new Schema({
   tipo: {
     type: String,
     required: true,
+    default:1,
   },
   nombre : {
     type: String,
