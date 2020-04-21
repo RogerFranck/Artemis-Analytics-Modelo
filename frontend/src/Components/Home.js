@@ -194,21 +194,14 @@ export default function MiniDrawer() {
 
   const busqueda = async (e) => {
     const resultados = await axios.get('http://localhost:4000/prospectos/' + e.target.value)
+    console.log(resultados.data)
     setProspectos(resultados.data)
     setPopperOpen(true)
   }
 
-  const ClosePopper = () => 
-  {
+  const ClosePopper = () => {
     setPopperOpen(false);
   };
-
-  const seleccion = (estado) =>
-  {
-    console.log(estado);
-    setPopperOpen(false);
-  }
-  
   return (
     <Router>
       <div className={classes.root}>
@@ -255,11 +248,11 @@ export default function MiniDrawer() {
                     style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
                   >
                     <Paper>
-                      <ClickAwayListener onClickAway={ClosePopper()}>
+                      <ClickAwayListener onClickAway={ClosePopper}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" >
                          {
                            prospectos.map(prospectos =>
-                            <MenuItem onClick={seleccion(prospectos.estado)} key={prospectos._id}>{prospectos.nombre}</MenuItem>
+                            <MenuItem  onClick={ClosePopper} key={prospectos.nombre}>{prospectos.nombre}</MenuItem>
                             )
                          }
                         </MenuList>
