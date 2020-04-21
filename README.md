@@ -2,6 +2,10 @@
 
 Plataforma de seguimiento a los prospectos de la carrera de un coordinador - universidad modelo
 
+### Capturas
+
+![image](https://user-images.githubusercontent.com/38674293/79822263-597cd200-8356-11ea-97cd-640e3b5de7c5.png)
+
 ### Iniciar servidores
 
 A cada uno debemos intstalar sus modulos con npm i
