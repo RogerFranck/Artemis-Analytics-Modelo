@@ -23,6 +23,17 @@ prospectosCtrl.getProspectos = async (req,res) => {
   const prospectos = await prospectoModelo.find()
   res.json(prospectos)
 }
+prospectosCtrl.getProspectosByName = async (req,res) => {
+  let prospectos1 = await prospectoModelo.find({"nombre": `${req.params.nombre}`}).collation({locale:"es", strength:1, alternate:"shifted"});
+  let prospectos2 = await prospectoModelo.find({"nombre": new RegExp(`${req.params.nombre}`, 'gi')});
+  let prospectos3 = await prospectoModelo.find({"nombre": new RegExp(`/^${req.params.nombre}`, 'gi')});
+  prospectos1 = prospectos2.concat(prospectos3);
+  prospectos1 = prospectos1.concat(prospectos2);
+  prospectos1 = prospectos1.filter(function(value,index,self){
+    return self.indexOf(value) === index;
+  });
+  res.json(prospectos1)
+}
 
 prospectosCtrl.postProspecto = async (req, res) =>{
   const {nombre, carrera, correo, numero, estado, fechaCita, completadoCita, fechaExani, completadoExani, fichaGenerada, fichaPagada} = req.body
