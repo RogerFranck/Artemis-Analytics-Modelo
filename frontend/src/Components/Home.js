@@ -171,7 +171,7 @@ export default function MiniDrawer() {
   const [open, setOpen] = React.useState(false);
   const [PopperOpen, setPopperOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
-  const [prospectos, setProspectos] = React.useState([]) 
+  const [prospectos, setProspectos] = React.useState([])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -194,7 +194,6 @@ export default function MiniDrawer() {
 
   const busqueda = async (e) => {
     const resultados = await axios.get('http://localhost:4000/prospectos/' + e.target.value)
-    console.log(resultados.data)
     setProspectos(resultados.data)
     setPopperOpen(true)
   }
@@ -202,6 +201,27 @@ export default function MiniDrawer() {
   const ClosePopper = () => {
     setPopperOpen(false);
   };
+
+  const Selection = (e) => {
+    let x = e.target.value;
+    switch (x) {
+      case 1:
+        window.location.href = '/Home/Interesados'
+        break;
+      case 2:
+        window.location.href = '/Home/Contactados'
+        break;
+      case 3:
+        window.location.href = '/Home/SemiInscritos'
+        break;
+      case 4:
+        window.location.href = '/Home/Inscritos'
+        break;
+      default:
+        break;
+    }
+  }
+
   return (
     <Router>
       <div className={classes.root}>
@@ -250,11 +270,11 @@ export default function MiniDrawer() {
                     <Paper>
                       <ClickAwayListener onClickAway={ClosePopper}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" >
-                         {
-                           prospectos.map(prospectos =>
-                            <MenuItem  onClick={ClosePopper} key={prospectos.nombre}>{prospectos.nombre}</MenuItem>
+                          {
+                            prospectos.slice(0, 3).map(prospectos =>
+                              <MenuItem onClick={Selection} value={prospectos.estado} key={prospectos.nombre}>{prospectos.nombre}</MenuItem>
                             )
-                         }
+                          }
                         </MenuList>
                       </ClickAwayListener>
                     </Paper>
