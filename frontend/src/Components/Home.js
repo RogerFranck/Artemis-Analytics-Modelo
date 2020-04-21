@@ -23,6 +23,12 @@ import InputBase from '@material-ui/core/InputBase';
 import Tooltip from '@material-ui/core/Tooltip';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuList from '@material-ui/core/MenuList';
+import axios from 'axios'
 
 //ICONS
 import HomeIcon from '@material-ui/icons/Home';
@@ -43,6 +49,7 @@ import Contactados from './Contactados'
 import SemiInscritos from './SemiInscrito'
 import Inscritos from './Inscritos'
 import Config from './Config'
+import { keys } from '@material-ui/core/styles/createBreakpoints';
 
 const drawerWidth = 240;
 
@@ -162,6 +169,9 @@ export default function MiniDrawer() {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  const [PopperOpen, setPopperOpen] = React.useState(false);
+  const anchorRef = React.useRef(null);
+  const [prospectos, setProspectos] = React.useState([])
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -181,6 +191,36 @@ export default function MiniDrawer() {
   const handleClose = () => {
     setAnchorEl(null);
   };
+
+  const busqueda = async (e) => {
+    const resultados = await axios.get('http://localhost:4000/prospectos/' + e.target.value)
+    setProspectos(resultados.data)
+    setPopperOpen(true)
+  }
+
+  const ClosePopper = () => {
+    setPopperOpen(false);
+  };
+
+  const Selection = (e) => {
+    let x = e.target.value;
+    switch (x) {
+      case 1:
+        window.location.href = '/Home/Interesados'
+        break;
+      case 2:
+        window.location.href = '/Home/Contactados'
+        break;
+      case 3:
+        window.location.href = '/Home/SemiInscritos'
+        break;
+      case 4:
+        window.location.href = '/Home/Inscritos'
+        break;
+      default:
+        break;
+    }
+  }
 
   return (
     <Router>
@@ -217,8 +257,30 @@ export default function MiniDrawer() {
                   root: classes.inputRoot,
                   input: classes.inputInput,
                 }}
+                ref={anchorRef}
+                onChange={busqueda}
                 inputProps={{ 'aria-label': 'search' }}
               />
+              <Popper open={PopperOpen} anchorEl={anchorRef.current} role={undefined} transition disablePortal>
+                {({ TransitionProps, placement }) => (
+                  <Grow
+                    {...TransitionProps}
+                    style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                  >
+                    <Paper>
+                      <ClickAwayListener onClickAway={ClosePopper}>
+                        <MenuList autoFocusItem={open} id="menu-list-grow" >
+                          {
+                            prospectos.slice(0, 3).map(prospectos =>
+                              <MenuItem onClick={Selection} value={prospectos.estado} key={prospectos.nombre}>{prospectos.nombre}</MenuItem>
+                            )
+                          }
+                        </MenuList>
+                      </ClickAwayListener>
+                    </Paper>
+                  </Grow>
+                )}
+              </Popper>
             </div>
             <IconButton
               color="inherit"
@@ -230,23 +292,23 @@ export default function MiniDrawer() {
               <AccountCircle />
             </IconButton>
             <Menu
-                id="menu-appbar"
-                anchorEl={anchorEl}
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'right',
-                }}
-                open={open2}
-                onClose={handleClose}
-              >
-                <MenuItem component={Link} to="/Home/Config" onClick={handleClose} >Perfil</MenuItem>
-                <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
-              </Menu>
+              id="menu-appbar"
+              anchorEl={anchorEl}
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              keepMounted
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'right',
+              }}
+              open={open2}
+              onClose={handleClose}
+            >
+              <MenuItem component={Link} to="/Home/Config" onClick={handleClose} >Perfil</MenuItem>
+              <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
+            </Menu>
           </Toolbar>
         </AppBar>
         <Drawer
@@ -310,14 +372,14 @@ export default function MiniDrawer() {
               </ListItem>
             </Tooltip>
             <Tooltip title="Inscritos" >
-            <ListItem
-              button
-              component={Link}
-              to="/Home/Inscritos"
-            >
-              <ListItemIcon><AssignmentTurnedInIcon style={{ color: grey[50] }} /></ListItemIcon>
-              <ListItemText primary="Inscrito" />
-            </ListItem>
+              <ListItem
+                button
+                component={Link}
+                to="/Home/Inscritos"
+              >
+                <ListItemIcon><AssignmentTurnedInIcon style={{ color: grey[50] }} /></ListItemIcon>
+                <ListItemText primary="Inscrito" />
+              </ListItem>
             </Tooltip>
           </List>
         </Drawer>

@@ -6,19 +6,23 @@ const {getProspectos, postProspecto, getProspecto, updateProspecto, deleteProspe
   getcontactados,
   getSemiInscritos,
   getInteresados,
+  getProspectosByName,
 } = require('../controllers/prospectos.controllers')
 
+ 
 router.route('/')
   .get(getProspectos)
   .post(postProspecto)
 router.route('/Interesados')
   .get(getInteresados)
-  router.route('/Contactados')
+router.route('/Contactados')
   .get(getcontactados)
-  router.route('/SemiInscritos')
+router.route('/SemiInscritos')
   .get(getSemiInscritos)
-  router.route('/Inscritos')
+router.route('/Inscritos')
   .get(getinscritos)
+router.route('/:nombre')
+  .get(getProspectosByName)
 router.route('/:id')
     .get(getProspecto)
     .put(updateProspecto)
