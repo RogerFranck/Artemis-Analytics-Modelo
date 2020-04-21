@@ -270,7 +270,7 @@ export default function MiniDrawer() {
                       <ClickAwayListener onClickAway={ClosePopper}>
                         <MenuList autoFocusItem={open} id="menu-list-grow" >
                           {
-                            prospectos.slice(0, 3).map(prospectos =>
+                            prospectos.slice(0, 4).map(prospectos =>
                               <MenuItem onClick={Selection} value={prospectos.estado} key={prospectos.nombre}>{prospectos.nombre}</MenuItem>
                             )
                           }
