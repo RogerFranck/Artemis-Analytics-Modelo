@@ -1,5 +1,6 @@
 // React
 import React, { Component } from 'react';
+import axios from 'axios';
 
 // Material UI
 import Avatar from '@material-ui/core/Avatar';
@@ -22,22 +23,23 @@ export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      User:'',
-      Password:''
+      User: '',
+      Password: ''
     };
   }
-  render(){
+
+  render() {
     return (
       <Grid container component="main" className="Root">
         <CssBaseline />
         <Grid item xs={false} sm={4} md={7} className="Image" />
         <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
           <div className="Paper">
-            <Avatar className="Avatar" style={{width: "80px",height:"80px"}} src={ModeloLogo} />
+            <Avatar className="Avatar" style={{ width: "80px", height: "80px" }} src={ModeloLogo} />
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <form>
+            <form action="http://localhost:4000/login" method="POST" >
               <TextField
                 variant="outlined"
                 margin="normal"
@@ -45,7 +47,7 @@ export default class Login extends Component {
                 fullWidth
                 id="User"
                 label="User"
-                name="User"
+                name="usuario"
                 autoComplete="User"
                 autoFocus
               />
@@ -78,5 +80,5 @@ export default class Login extends Component {
         </Grid>
       </Grid>
     );
-  } 
+  }
 }
