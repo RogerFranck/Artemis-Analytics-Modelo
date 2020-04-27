@@ -51,7 +51,6 @@ export default class Login extends Component {
         Open: true
       });
     } else {
-      console.log(user.data.user.tipo);
       localStorage.setItem('JWT-COOL', user.data.token);
       if (user.data.user.tipo === "1") {
         this.props.history.push('/Home/Dash');
