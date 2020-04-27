@@ -7,11 +7,13 @@ import Avatar from '@material-ui/core/Avatar';
 import Button from '@material-ui/core/Button';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import TextField from '@material-ui/core/TextField';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import Checkbox from '@material-ui/core/Checkbox';
 import Paper from '@material-ui/core/Paper';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
+import Alert from '@material-ui/lab/Alert';
+import IconButton from '@material-ui/core/IconButton';
+import Collapse from '@material-ui/core/Collapse';
+import CloseIcon from '@material-ui/icons/Close';
 
 //IMG
 import ModeloLogo from './Assets/ModeloLogo.png';
@@ -23,10 +25,44 @@ export default class Login extends Component {
   constructor() {
     super();
     this.state = {
-      User: '',
-      Password: ''
+      usuario: '',
+      password: '',
+      Open: false,
+      text: '',
     };
   }
+
+  changeUser = (e) => {
+    const { name, value } = e.target;
+    this.setState({
+      [name]: value,
+    });
+  }
+
+  onSubmit = async (e) => {
+    e.preventDefault();
+    const user = await axios.post('http://localhost:4000/login', {
+      usuario: this.state.usuario,
+      password: this.state.password,
+    });
+    if (user.data.status) {
+      this.setState({
+        text: user.data.status,
+        Open: true
+      });
+    } else {
+      localStorage.setItem('JWT-COOL', user.data.token);
+      this.props.history.push('/Home/Dash');
+    }
+  }
+
+  componentDidMount = () => {
+    const jwt = localStorage.getItem('JWT-COOL');
+    if (jwt) {
+      this.props.history.push('/Home/Dash');
+    }
+  }
+
 
   render() {
     return (
@@ -39,16 +75,17 @@ export default class Login extends Component {
             <Typography component="h1" variant="h5">
               Login
             </Typography>
-            <form action="http://localhost:4000/login" method="POST" >
+            <form autoComplete="off" onSubmit={this.onSubmit} >
               <TextField
                 variant="outlined"
                 margin="normal"
                 required
                 fullWidth
                 id="User"
+                value={this.state.usuario}
+                onChange={this.changeUser}
                 label="User"
                 name="usuario"
-                autoComplete="User"
                 autoFocus
               />
               <TextField
@@ -57,15 +94,13 @@ export default class Login extends Component {
                 required
                 fullWidth
                 name="password"
+                value={this.state.password}
+                onChange={this.changeUser}
                 label="Password"
                 type="password"
                 id="password"
-                autoComplete="current-password"
               />
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
-              />
+              <br /><br /><br />
               <Button
                 type="submit"
                 fullWidth
@@ -76,6 +111,28 @@ export default class Login extends Component {
                 Sign In
               </Button>
             </form>
+            <br />
+            <Collapse in={this.state.Open}>
+              <Alert
+                severity="error"
+                action={
+                  <IconButton
+                    aria-label="close"
+                    color="inherit"
+                    size="small"
+                    onClick={() => {
+                      this.setState({
+                        Open: false
+                      });
+                    }}
+                  >
+                    <CloseIcon fontSize="inherit" />
+                  </IconButton>
+                }
+              >
+                {this.state.text}
+              </Alert>
+            </Collapse>
           </div>
         </Grid>
       </Grid>

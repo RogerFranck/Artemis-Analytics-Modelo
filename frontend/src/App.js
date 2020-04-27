@@ -6,14 +6,17 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import Home from './Components/Home'
 import Login from './Components/Login'
 import AdminHome from './Components/AdminHome'
+import Auth from './Helpers/Auth'
 
 function App() {
   return (
     <Router>
       <Switch>
         <Route path="/Login" exact component={Login} />
-        <Route path="/Home" component={Home} />
-        <Route path="/Admin" exact component={AdminHome} />
+        <Auth>
+          <Route path="/Home" component={Home} />
+          <Route path="/Admin" exact component={AdminHome} />
+        </Auth>  
       </Switch>
     </Router>
   );
