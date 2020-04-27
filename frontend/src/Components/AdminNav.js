@@ -65,7 +65,10 @@ export default function MenuAppBar() {
               open={open}
               onClose={handleClose}
             >
-              <MenuItem onClick={handleClose}>Cerrar sesión</MenuItem>
+              <MenuItem onClick={() => {
+                localStorage.removeItem('JWT-COOL');
+                window.location.href = "/Login";
+              }}>Cerrar sesión</MenuItem>
             </Menu>
           </div>
         </Toolbar>
