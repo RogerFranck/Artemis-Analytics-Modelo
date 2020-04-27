@@ -2,6 +2,7 @@ const usuariosCtrl = {};
 
 const usuarioModel = require('../models/modelUsuario')
 const jwt = require('jsonwebtoken');
+const bcrypt = require('bcryptjs');
 
 usuariosCtrl.getUsers = async (req, res) => {
   const usuarios = await usuarioModel.find()
@@ -34,19 +35,18 @@ usuariosCtrl.getUser = async (req, res) => {
 };
 
 usuariosCtrl.updateUser = async (req, res) => {
-  //console.log(req.params.id, req.body) //ver que es lo que se recibe
-  const { tipo, nombre, carrera, correo, numero, matricula, usuario, password } = req.body
-  const nuevoUsuario = new usuarioModel({
+  const { tipo, nombre, carrera, correo, numero, usuario, password } = req.body
+  const nuevoUsuario = {
     tipo: tipo,
     nombre: nombre,
     carrera: carrera,
     correo: correo,
     numero: numero,
-    matricula: matricula,
     usuario: usuario,
     password: password,
-  });
-  nuevoUsuario.password = await nuevoUsuario.encryptPassword(password);
+  }
+  const salt = await bcrypt.genSalt(10);
+  nuevoUsuario.password = await bcrypt.hash(password, salt);
   await usuarioModel.findOneAndUpdate({ _id: req.params.id }, nuevoUsuario)
   res.json({ message: "Usuario Actualizado" })
 };
