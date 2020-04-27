@@ -1,5 +1,5 @@
 //React
-import React from 'react'
+import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom'
 
 //MATERIAL-UI
@@ -171,6 +171,23 @@ export default function MiniDrawer() {
   const [PopperOpen, setPopperOpen] = React.useState(false);
   const anchorRef = React.useRef(null);
   const [prospectos, setProspectos] = React.useState([])
+
+  useEffect(() => {
+    const fetchData = async () => {
+      const jwt = localStorage.getItem('JWT-COOL');
+      if (jwt) {
+        const user = await axios.get('http://localhost:4000/login/validar', {
+          headers: {
+            "x-jwt": jwt
+          }
+        })
+        if (user.data.tipo === "0") {
+          window.location.href = '/Admin';
+        }
+      }
+    };
+    fetchData();
+  }, []);
 
   const handleDrawerOpen = () => {
     setOpen(true);

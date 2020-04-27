@@ -51,15 +51,30 @@ export default class Login extends Component {
         Open: true
       });
     } else {
+      console.log(user.data.user.tipo);
       localStorage.setItem('JWT-COOL', user.data.token);
-      this.props.history.push('/Home/Dash');
+      if (user.data.user.tipo === "1") {
+        this.props.history.push('/Home/Dash');
+      } else {
+        this.props.history.push('/Admin');
+      }
+
     }
   }
 
-  componentDidMount = () => {
+  componentDidMount = async () => {
     const jwt = localStorage.getItem('JWT-COOL');
     if (jwt) {
-      this.props.history.push('/Home/Dash');
+      const user = await axios.get('http://localhost:4000/login/validar', {
+        headers: {
+          "x-jwt": jwt
+        }
+      })
+      if(user.data.tipo==="1"){
+        this.props.history.push('/Home/Dash');
+      }else{
+        this.props.history.push('/Admin');
+      }
     }
   }
 
