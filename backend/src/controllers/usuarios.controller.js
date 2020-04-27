@@ -35,7 +35,19 @@ usuariosCtrl.getUser = async (req, res) => {
 
 usuariosCtrl.updateUser = async (req, res) => {
   //console.log(req.params.id, req.body) //ver que es lo que se recibe
-  await usuarioModel.findOneAndUpdate({ _id: req.params.id }, req.body)
+  const { tipo, nombre, carrera, correo, numero, matricula, usuario, password } = req.body
+  const nuevoUsuario = new usuarioModel({
+    tipo: tipo,
+    nombre: nombre,
+    carrera: carrera,
+    correo: correo,
+    numero: numero,
+    matricula: matricula,
+    usuario: usuario,
+    password: password,
+  });
+  nuevoUsuario.password = await nuevoUsuario.encryptPassword(password);
+  await usuarioModel.findOneAndUpdate({ _id: req.params.id }, nuevoUsuario)
   res.json({ message: "Usuario Actualizado" })
 };
 
