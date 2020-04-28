@@ -58,18 +58,28 @@ export default class Dashboard extends Component {
       SemiInscritosCount: 0,
       InscritosCount: 0,
       Citas: [],
+      carrera: "",
     };
   }
 
   async componentDidMount() {
+    const jwt = localStorage.getItem('JWT-COOL');
+    if (jwt) {
+      const user = await Axios.get('http://localhost:4000/login/validar', {
+        headers: {
+          "x-jwt": jwt
+        }
+      })
+      this.setState({carrera: user.data.carrera})
+    }
     this.getdata();
   }
 
   getdata = async () => {
-    const Interesados = await Axios.get('http://localhost:4000/prospectos/Interesados');
-    const Contactados = await Axios.get('http://localhost:4000/prospectos/Contactados');
-    const SemiInscritos = await Axios.get('http://localhost:4000/prospectos/SemiInscritos');
-    const Inscritos = await Axios.get('http://localhost:4000/prospectos/Inscritos');
+    const Interesados = await Axios.get('http://localhost:4000/prospectos/Interesados/' + this.state.carrera);
+    const Contactados = await Axios.get('http://localhost:4000/prospectos/Contactados/' + this.state.carrera);
+    const SemiInscritos = await Axios.get('http://localhost:4000/prospectos/SemiInscritos/' + this.state.carrera);
+    const Inscritos = await Axios.get('http://localhost:4000/prospectos/Inscritos/' + this.state.carrera);
     this.setState({
       data: [
         { Type: 'Interesados', area: Interesados.data.length },
