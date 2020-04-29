@@ -3,19 +3,19 @@ const prospectosCtrl = {};
 const prospectoModelo = require('../models/modelProspecto')
 
 prospectosCtrl.getInteresados = async (req,res) => {
-  const docs = await prospectoModelo.find({ 'estado': 1 })
+  const docs = await prospectoModelo.find({ 'estado': 1 , 'carrera': `${req.params.carrera}`})
   res.json(docs)
 }
 prospectosCtrl.getcontactados = async (req,res) => {
-  const docs = await prospectoModelo.find({ 'estado': 2 })
+  const docs = await prospectoModelo.find({ 'estado': 2 , 'carrera': `${req.params.carrera}`})
   res.json(docs)
 }
 prospectosCtrl.getSemiInscritos = async (req,res) => {
-  const docs = await prospectoModelo.find({ 'estado': 3 })
+  const docs = await prospectoModelo.find({ 'estado': 3 , 'carrera': `${req.params.carrera}`})
   res.json(docs)
 }
 prospectosCtrl.getinscritos = async (req,res) => {
-  const docs = await prospectoModelo.find({ 'estado': 4 })
+  const docs = await prospectoModelo.find({ 'estado': 4 , 'carrera': `${req.params.carrera}` })
   res.json(docs)
 }
 
@@ -57,6 +57,11 @@ prospectosCtrl.postProspecto = async (req, res) =>{
 prospectosCtrl.getProspecto = async (req,res) => {
   const prospecto = await prospectoModelo.findById(req.params.id)
   res.json(prospecto)
+}
+
+prospectosCtrl.getProspectoPorCarrera = async (req,res) => {
+  const prospectos = await prospectoModelo.find({"carrera": `${req.params.carrera}`})
+  res.json(prospectos)
 }
 
 prospectosCtrl.updateProspecto = async (req, res) => {

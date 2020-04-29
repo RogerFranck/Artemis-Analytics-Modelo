@@ -14,21 +14,33 @@ export default function MaterialTableDemo() {
   const [data, setData] = useState([
   ]);
 
+  const [carrera, setCarrera] = useState("");
+
   const actualizarData = async () => {
-    const result = await axios('http://localhost:4000/prospectos/SemiInscritos');
+    const result = await axios('http://localhost:4000/prospectos/SemiInscritos/' + carrera);
     setData(result.data);
   }
 
   useEffect(() => {
     const fetchData = async () => {
-      const result = await axios('http://localhost:4000/prospectos/SemiInscritos');
-      setData(result.data);
+      const jwt = localStorage.getItem('JWT-COOL');
+      if (jwt) {
+        const user = await axios.get('http://localhost:4000/login/validar', {
+          headers: {
+            "x-jwt": jwt
+          }
+        })
+        await setCarrera(user.data.carrera)
+        const prospectos = await axios.get('http://localhost:4000/prospectos/SemiInscritos/' + user.data.carrera)
+        setData(prospectos.data) 
+      }
     };
     fetchData();
   }, []);
 
   const saveProspecto = async (dataNew) => {
     dataNew["estado"] = 3;
+    dataNew["carrera"] = carrera;
     await axios.post('http://localhost:4000/prospectos', dataNew);
     actualizarData();
   }
