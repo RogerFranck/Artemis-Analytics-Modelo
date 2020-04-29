@@ -1,0 +1,21 @@
+.cont{
+  display: flex;
+  justify-content: space-between;
+}
+.contNotas{
+  height: 350px;
+}
+.img{
+  width: 350px;
+}
+.tit{
+  background-color:#673ab7;
+  color: white;
+  padding: 15px;
+  border-radius: 5px;
+}
+.Icon1{
+  background-color:#673ab7;
+  padding: 15px;
+  border-radius: 5px;
+}

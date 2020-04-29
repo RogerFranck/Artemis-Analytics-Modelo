@@ -1,0 +1,30 @@
+.Root{
+  height: 100vh;
+}
+
+.Image{
+  background-image: url(../Assets/Modelo.jpg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+}
+
+.Paper{
+  margin: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Avatar{
+  margin: 20px;
+}
+
+form{
+  width: 100%;
+  margin-top: 8px;
+}
+
+.submit{
+  margin: 24px 0px 16px;
+}
