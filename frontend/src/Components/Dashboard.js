@@ -108,7 +108,7 @@ export default class Dashboard extends Component {
   render() {
     const { data: chartData } = this.state;
     const { Citas } = this.state;
-    const cita = Citas.map((C) => (
+    const cita = Citas.slice(0, 5).map((C) => (
       <ListItem key={C._id} >
         <ListItemText
           primary={C.nombre + " (" + format(C.fechaCita) + ")"}
