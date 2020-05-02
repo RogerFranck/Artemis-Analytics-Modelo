@@ -79,7 +79,7 @@ export default class Config extends Component {
         <Grid item xs={12} ><br/></Grid>
         <Grid item xs={12}>
           <center>
-            <a  className="a" href="#" >Exportar prospectos</a>
+            {/* <a  className="a" href="#" >Exportar prospectos</a> */}
           </center>
         </Grid>
       </Grid>
